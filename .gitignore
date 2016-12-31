@@ -28,6 +28,59 @@ $RECYCLE.BIN/
 .AppleDouble
 .LSOverride
 
+# Visual Studio C++ Files
+*.ipch
+*.lastbuildstate
+*.ilk
+*.pdb
+*.exp
+*.sdf
+*.opensdf
+*.idb
+*.cache
+*.vcxproj
+*.vcxproj.filters
+*.user
+*.sln
+*.suo
+
+# log Files
+*.tlog
+*.log
+
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
 # Thumbnails
 ._*
 
@@ -45,3 +98,4 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+
