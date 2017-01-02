@@ -22,8 +22,8 @@ ValueLocationCount::ValueLocationCount() {
 
 // Constructor
 
-SolverSupport::SolverSupport(Board &inputBoard) {
-	board = &inputBoard;
+SolverSupport::SolverSupport(Board *inputBoard) {
+	board = inputBoard;
 
 	clearNumberCount();
 	clearValueCount();
@@ -88,8 +88,8 @@ void SolverSupport::processPossibleValuesToNumberCount(uint8_t row, uint8_t colu
 
 // Public functions to help solve sudoku board
 
-void SolverSupport::setBoard(Board &inputBoard) {
-	board = &inputBoard;
+void SolverSupport::setBoard(Board *inputBoard) {
+	board = inputBoard;
 }
 void SolverSupport::getNumberCountHidden(uint8_t rowMin, uint8_t rowMax,  uint8_t columnMin, uint8_t columnMax) {
 

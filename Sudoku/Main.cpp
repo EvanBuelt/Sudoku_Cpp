@@ -24,30 +24,27 @@ int main() {
 									  {2, 0, 0, 8, 0, 0, 0, 0, 7}};
 
 	Board easyBoard = Board(easyInputBoard);
-	Board mediumBoard = Board(mediumInputBoard);
 
 	std::cout << "Initial Easy Board: " << "\n\n";
 
 	for(int row = 0; row < 9; row++) {
 		for(int column = 0;column < 9; column++) {
-			int displayValue = (int) mediumBoard.getValue(row, column);
+			int displayValue = (int) easyBoard.getValue(row, column);
 			std::cout << displayValue;
 		}
 		std::cout << "\n";
 	}
 	std::cout << "\n";
 
-	ElegantSolver easySolver = ElegantSolver(easyBoard);
-	ElegantSolver mediumSolver = ElegantSolver(mediumBoard);
+	ElegantSolver easySolver = ElegantSolver(&easyBoard);
 
 	easySolver.solve();
-	mediumSolver.solve();
 
 	std::cout << "Final Easy Board: " << "\n\n";
 
 	for(int row = 0; row < 9; row++) {
 		for(int column = 0;column < 9; column++) {
-			int displayValue = (int) mediumBoard.getValue(row, column);
+			int displayValue = (int) easyBoard.getValue(row, column);
 			std::cout << displayValue;
 		}
 		std::cout << "\n";

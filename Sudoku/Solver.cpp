@@ -6,35 +6,31 @@
 #include "SolverTriples.h"
 #include "SolverQuads.h"
 
-ElegantSolver::ElegantSolver(Board &inputBoard) {
+ElegantSolver::ElegantSolver(Board *inputBoard) {
 	board = inputBoard;
 	solverSupport.setBoard(board);
 
-	for(uint8_t i = 0; i < ELEMENTS; i++) {
-
-	}
 }
 
 void ElegantSolver::solve() {
 	bool running = true;
-	uint8_t integer;
 
 	while(running) {
 		running = false;
 
 		// Call functions that look for two possible values in row, column, box, or pair of cells
-		running |= removeNakedDoubles(board);
-		running |= removeHiddenDoubles(board);
-		running |= removePointingDoubles(board);
+		//running |= removeNakedDoubles(*board);
+		//running |= removeHiddenDoubles(*board);
+		//running |= removePointingDoubles(*board);
 
 		// Call functions that look for two-three possible values in row, column, box, or triplet of cells
-		running |= removeNakedTriples(board);
-		running |= removeHiddenTriples(board);
-		running |= removePointingTriples(board);
+		//running |= removeNakedTriples(*board);
+		//running |= removeHiddenTriples(*board);
+		//running |= removePointingTriples(*board);
 
 		// Call functions that look for single possible value in row, column, box, or cell
-		running |= removeNakedSingles(board);
-		running |= removeHiddenSingles(board);
+		running |= removeNakedSingles(*board);
+		running |= removeHiddenSingles(*board);
 
 	}
 }

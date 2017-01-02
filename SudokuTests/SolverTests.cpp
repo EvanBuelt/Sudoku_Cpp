@@ -34,7 +34,7 @@ namespace SudokuTests
 			Board board = Board(inputBoard);
 
 			// Setup support solver class
-			SolverSupport support = SolverSupport(board);
+			SolverSupport support = SolverSupport(&board);
 
 			// Setup arrays that we expect Number Location Count array to be, one for row, one for column, and one for box
 			NumberLocationCount numberCountTestRow[9] = {NumberLocationCount(), NumberLocationCount(), NumberLocationCount(),
@@ -220,7 +220,7 @@ namespace SudokuTests
 			Board board = Board(inputBoard);
 
 			// Setup support solver class
-			SolverSupport support = SolverSupport(board);
+			SolverSupport support = SolverSupport(&board);
 
 			// Setup arrays that we expect Number Location Count array to be, one for row, one for column, and one for box
 			NumberLocationCount numberCountTestRow[9] = {NumberLocationCount(), NumberLocationCount(), NumberLocationCount(),
@@ -371,7 +371,7 @@ namespace SudokuTests
 
 			// Setup board class to be used by support solver
 			Board board = Board(inputBoard);
-			solverSupport.setBoard(board);
+			solverSupport.setBoard(&board);
 
 			// Setup number count appropriately
 			for(int i = 0; i < ELEMENTS; i++) {
@@ -471,7 +471,7 @@ namespace SudokuTests
 
 			// Setup board class to be used by support solver
 			Board board = Board(inputBoard);
-			solverSupport.setBoard(board);
+			solverSupport.setBoard(&board);
 
 			Assert::IsTrue(removeHiddenSingleRow(board));
 
@@ -517,7 +517,7 @@ namespace SudokuTests
 
 			// Setup board class to be used by support solver
 			Board board = Board(inputBoard);
-			solverSupport.setBoard(board);
+			solverSupport.setBoard(&board);
 
 			Assert::IsTrue(removeHiddenSingleColumn(board));
 

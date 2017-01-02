@@ -19,7 +19,7 @@ Finding naked process:
 
 class ElegantSolver {
 private:
-	Board board;
+	Board *board;
 
 	Location commonLocation[ELEMENTS];
 	NumberLocationCount numberCount[ELEMENTS]; // When proccessing Hidden values, there are only 9 Cells and 9 Values to process at a time.  
@@ -63,7 +63,7 @@ private:
 
 public:
 
-	ElegantSolver(Board &);
+	ElegantSolver(Board *board);
 
 	void solve();
 };
