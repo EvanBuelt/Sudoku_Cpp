@@ -472,17 +472,15 @@ namespace SudokuTests
 			Board board = Board(inputBoard);
 			solverSupport.setBoard(board);
 
-			// Assert::IsTrue(removeHiddenSingleRow(board));
-
-			removeHiddenSingleRow(board);
+			Assert::IsTrue(removeHiddenSingleRow(board));
 
 			for(int i = 0; i < ELEMENTS; i++) {
 				for(int j = 0; j < ELEMENTS; j++) {
 					Assert::AreEqual(solvedBoard[i][j], board.getValue(i, j));
 				}
 			}
-			/*
-			Assert::IsFalse(removeNakedSingles(board));
+			
+			Assert::IsFalse(removeHiddenSingleRow(board));
 
 			for(int i = 0; i < ELEMENTS; i++) {
 				for(int j = 0; j < ELEMENTS; j++) {
@@ -490,7 +488,53 @@ namespace SudokuTests
 				}
 			}
 
-			Assert::IsFalse(removeNakedSingles(board));*/
+			Assert::IsFalse(removeHiddenSingleRow(board));
+		}
+
+		TEST_METHOD(Unit_Test_Solver_Single_RemoveHiddenSingleColumn) {
+			
+			// Setup board
+			uint8_t inputBoard[9][9] = { {0, 2, 0, 0, 0, 0, 0, 0, 0},
+										 {0, 0, 0, 1, 0, 0, 0, 0, 0},
+										 {0, 0, 0, 0, 0, 0, 1, 0, 0},
+										 {0, 0, 1, 0, 0, 0, 0, 0, 0},
+										 {0, 0, 0, 0, 0, 0, 0, 0, 0},
+										 {0, 0, 0, 0, 0, 0, 0, 0, 0},
+										 {0, 0, 0, 0, 0, 0, 0, 0, 0},
+										 {0, 1, 0, 0, 0, 0, 0, 0, 0},
+										 {0, 0, 0, 0, 0, 0, 0, 0, 0} };
+
+			uint8_t solvedBoard[9][9] = { {1, 2, 0, 0, 0, 0, 0, 0, 0},
+										  {0, 0, 0, 1, 0, 0, 0, 0, 0},
+										  {0, 0, 0, 0, 0, 0, 1, 0, 0},
+										  {0, 0, 1, 0, 0, 0, 0, 0, 0},
+										  {0, 0, 0, 0, 0, 0, 0, 0, 0},
+										  {0, 0, 0, 0, 0, 0, 0, 0, 0},
+										  {0, 0, 0, 0, 0, 0, 0, 0, 0},
+										  {0, 1, 0, 0, 0, 0, 0, 0, 0},
+										  {0, 0, 0, 0, 0, 0, 0, 0, 0} };
+
+			// Setup board class to be used by support solver
+			Board board = Board(inputBoard);
+			solverSupport.setBoard(board);
+
+			Assert::IsTrue(removeHiddenSingleColumn(board));
+
+			for(int i = 0; i < ELEMENTS; i++) {
+				for(int j = 0; j < ELEMENTS; j++) {
+					Assert::AreEqual(solvedBoard[i][j], board.getValue(i, j));
+				}
+			}
+			
+			Assert::IsFalse(removeHiddenSingleColumn(board));
+
+			for(int i = 0; i < ELEMENTS; i++) {
+				for(int j = 0; j < ELEMENTS; j++) {
+					Assert::AreEqual(solvedBoard[i][j], board.getValue(i, j));
+				}
+			}
+
+			Assert::IsFalse(removeHiddenSingleColumn(board));
 		}
 	};
 }
