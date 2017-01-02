@@ -38,10 +38,7 @@ $RECYCLE.BIN/
 *.opensdf
 *.idb
 *.cache
-*.vcxproj
-*.vcxproj.filters
 *.user
-*.sln
 *.suo
 
 # log Files
