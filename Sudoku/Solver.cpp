@@ -17,8 +17,7 @@ ElegantSolver::ElegantSolver(Board &inputBoard) {
 
 void ElegantSolver::solve() {
 	bool running = true;
-
-	// std::cout << "Running" << "\n";
+	uint8_t integer;
 
 	while(running) {
 		running = false;
@@ -36,6 +35,7 @@ void ElegantSolver::solve() {
 		// Call functions that look for single possible value in row, column, box, or cell
 		running |= removeNakedSingles(board);
 		running |= removeHiddenSingles(board);
+
 	}
 }
 

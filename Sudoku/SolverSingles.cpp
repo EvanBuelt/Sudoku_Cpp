@@ -3,6 +3,8 @@
 #include "SolverSingles.h"
 #include "Board.h"
 
+#include <iostream>
+
 bool removeNakedSingles(Board &board) {
 	uint8_t possibleValues[ELEMENTS];
 	bool found = false;
@@ -91,7 +93,7 @@ bool processHiddenSingle(Board &board) {
 	uint8_t count = 0;
 	uint8_t row = 0;
 	uint8_t column = 0;
-	
+
 	for(uint8_t value = 1; value <= 9; value++) {
 		count = solverSupport.numberCount[value - 1].count;
 		if(count == 1) {

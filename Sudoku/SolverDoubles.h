@@ -19,4 +19,5 @@ bool removePointingDoubleRow(Board &board);
 bool removePointingDoubleColumn(Board &board);
 bool removePointingDoubleBox(Board &board);
 
+bool processHiddenDouble(Board &board);
 #endif

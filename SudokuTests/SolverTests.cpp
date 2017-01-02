@@ -15,7 +15,7 @@ namespace SudokuTests
 	{
 	public:
 		
-		TEST_METHOD(Unit_Test_Solver_Support_Hidden_Number_Count)
+		TEST_METHOD(Unit_Test_Solver_Support_HiddenNumberCount)
 		{
 			
 			// Setup board
@@ -201,7 +201,7 @@ namespace SudokuTests
 			numberCountTestColumn[9 - 1].location[5].column = 0;
 		}
 
-		TEST_METHOD(Unit_Test_Solver_Support_Naked_Number_Count) 
+		TEST_METHOD(Unit_Test_Solver_Support_NakedNumberCount) 
 		{// 1 3 4 6 9
 			
 			// Setup board

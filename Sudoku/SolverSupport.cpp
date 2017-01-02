@@ -5,14 +5,14 @@ SolverSupport solverSupport = SolverSupport();
 // Structs to hold info for support class
 
 NumberLocationCount::NumberLocationCount() {
-	for(uint8_t i = 0; i < WIDTH; i++) {
+	for(uint8_t i = 0; i < ELEMENTS; i++) {
 		location[i].row = 0;
 		location[i].column = 0;
 	}
 	count = 0;
 }
 ValueLocationCount::ValueLocationCount() {
-	for(uint8_t i = 0; i < WIDTH; i++) {
+	for(uint8_t i = 0; i < ELEMENTS; i++) {
 		location[i].row = 0;
 		location[i].column = 0;
 	}
@@ -24,6 +24,10 @@ ValueLocationCount::ValueLocationCount() {
 
 SolverSupport::SolverSupport(Board &inputBoard) {
 	board = inputBoard;
+
+	clearNumberCount();
+	clearValueCount();
+	clearCommonLocation();
 }
 SolverSupport::SolverSupport() {
 
@@ -32,9 +36,9 @@ SolverSupport::SolverSupport() {
 // Private functions to help with public functions
 
 void SolverSupport::clearNumberCount() { 
-	for(uint8_t numberIndex = 0; numberIndex < 9; numberIndex++) {
+	for(uint8_t numberIndex = 0; numberIndex < ELEMENTS; numberIndex++) {
 		numberCount[numberIndex].count = 0;
-		for(uint8_t locationIndex = 0; locationIndex < 9; locationIndex++) {
+		for(uint8_t locationIndex = 0; locationIndex < ELEMENTS; locationIndex++) {
 			numberCount[numberIndex].location[locationIndex].row = 0;
 			numberCount[numberIndex].location[locationIndex].column = 0;
 		}
@@ -75,6 +79,8 @@ void SolverSupport::setBoard(Board &inputBoard) {
 }
 void SolverSupport::getNumberCountHidden(uint8_t rowMin, uint8_t rowMax,  uint8_t columnMin, uint8_t columnMax) {
 
+	// Add all possible values within specifiec rows and columns to number count
+
 	clearNumberCount();
 
 	// Iterate over every row and column requested
@@ -86,6 +92,8 @@ void SolverSupport::getNumberCountHidden(uint8_t rowMin, uint8_t rowMax,  uint8_
 }
 void SolverSupport::getNumberCountNaked(uint8_t possibleValuesMin, uint8_t possibleValuesMax, uint8_t rowMin, uint8_t rowMax,  uint8_t columnMin, uint8_t columnMax) {
 	
+	// Finds cells within specified rows and columns that have the specified possible values and adds the possible values within that cell.
+
 	clearNumberCount();
 
 	// Iterate over every row and column requested
@@ -101,6 +109,7 @@ void SolverSupport::getNumberCountNaked(uint8_t possibleValuesMin, uint8_t possi
 	}
 }
 void SolverSupport::processNumberCountIntoValueCount(uint8_t countMin, uint8_t countMax) {
+
 	clearValueCount();
 
 	uint8_t index = 0;
@@ -114,5 +123,51 @@ void SolverSupport::processNumberCountIntoValueCount(uint8_t countMin, uint8_t c
 			}
 			index++;
 		}
+	}
+}
+
+void SolverSupport::addCommonLocationNumberCount(uint8_t value) {
+	bool found = false;
+	for(uint8_t numberLocationIndex = 0; numberLocationIndex < ELEMENTS; numberLocationIndex++) {
+		found = false;
+		for(uint8_t commonIndex = 0; commonIndex < ELEMENTS; commonIndex++) {
+			if(valueCount[value - 1].location[numberLocationIndex].row    == commonLocation[commonIndex].row &&
+			   valueCount[value - 1].location[numberLocationIndex].column == commonLocation[commonIndex].column) {
+					found = true;
+			}
+		}
+		if(!found) {
+			commonLocation[commonLocationIndex].row    = valueCount[value].location[numberLocationIndex].row;
+			commonLocation[commonLocationIndex].column = valueCount[value].location[numberLocationIndex].column;
+			commonLocationIndex++;
+		}
+	}
+}
+void SolverSupport::addCommonLocationValueCount(uint8_t value) {
+	bool found = false;
+	for(uint8_t i = 0; i < ELEMENTS; i++) {
+		if(valueCount[i].value == value) {
+			for(uint8_t valueLocationIndex = 0; valueLocationIndex < ELEMENTS; valueLocationIndex++) {
+				found = false;
+				for(uint8_t commonIndex = 0; commonIndex < ELEMENTS; commonIndex++) {
+					if(valueCount[i].location[valueLocationIndex].row    == commonLocation[commonIndex].row &&
+					   valueCount[i].location[valueLocationIndex].column == commonLocation[commonIndex].column) {
+							found = true;
+					}
+				}
+				if(!found) {
+					commonLocation[commonLocationIndex].row    = valueCount[i].location[valueLocationIndex].row;
+					commonLocation[commonLocationIndex].column = valueCount[i].location[valueLocationIndex].column;
+					commonLocationIndex++;
+				}
+			}
+		}
+	}
+}
+void SolverSupport::clearCommonLocation() {
+	commonLocationIndex = 0;
+	for(uint8_t i = 0; i < ELEMENTS; i++) {
+		commonLocation[i].row = 0;
+		commonLocation[i].column = 0;
 	}
 }

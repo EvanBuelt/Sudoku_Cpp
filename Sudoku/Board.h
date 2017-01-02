@@ -41,9 +41,10 @@ class Board {
 private:
 	Cell originalBoard[HEIGHT][WIDTH];
 
-	void remove_possible_values(uint8_t row, uint8_t column);
-
 public:
+
+	
+
 	Cell board[HEIGHT][WIDTH];
 	uint8_t width;
 	uint8_t height;
@@ -53,6 +54,9 @@ public:
 
 	void setValue(uint8_t value, uint8_t row, uint8_t column);
 	uint8_t getValue(uint8_t row, uint8_t column);
+
+	void remove_possible_values(uint8_t row, uint8_t column);
+	void set_possible_values(uint8_t input_value, uint8_t row, uint8_t column);
 };
 
 // Utility functions

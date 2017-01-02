@@ -125,6 +125,7 @@ uint8_t Board::getValue(uint8_t row, uint8_t column) {
 }
 
 void Board::remove_possible_values(uint8_t row, uint8_t column) {
+
 	uint8_t boxRowStart = 3 * (row / 3);
 	uint8_t boxColumnStart = 3 * (column / 3);
 	uint8_t value = getValue(row, column);
@@ -135,6 +136,9 @@ void Board::remove_possible_values(uint8_t row, uint8_t column) {
 		board[boxRowStart + (i / 3)][boxColumnStart + (i % 3)].clearPossibleValue(value); // removes value from possible values in box
 	}
 
+}
+void Board::set_possible_values(uint8_t input_value, uint8_t row, uint8_t column) {
+	board[row][column].setPossibleValue(input_value);
 }
 
 // Uitility function definitions

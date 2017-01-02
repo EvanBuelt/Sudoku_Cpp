@@ -36,6 +36,7 @@ public:
 	SolverSupport();
 
 	Location commonLocation[ELEMENTS];
+	uint8_t commonLocationIndex;
 	NumberLocationCount numberCount[ELEMENTS]; 
 	ValueLocationCount valueCount[ELEMENTS]; 
 	uint8_t possibleValues[ELEMENTS];	
@@ -44,6 +45,10 @@ public:
 	void getNumberCountHidden(uint8_t rowMin, uint8_t rowMax,  uint8_t columnMin, uint8_t columnMax);
 	void getNumberCountNaked(uint8_t possibleValuesMin, uint8_t possibleValuesMax, uint8_t rowMin, uint8_t rowMax,  uint8_t columnMin, uint8_t columnMax);
 	void processNumberCountIntoValueCount(uint8_t countMin, uint8_t countMax);
+
+	void addCommonLocationNumberCount(uint8_t value);
+	void addCommonLocationValueCount(uint8_t value);
+	void clearCommonLocation();
 };
 
 /*
