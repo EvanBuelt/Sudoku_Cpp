@@ -371,6 +371,7 @@ namespace SudokuTests
 
 			// Setup board class to be used by support solver
 			Board board = Board(inputBoard);
+			solverSupport.setBoard(board);
 
 			// Setup number count appropriately
 			for(int i = 0; i < ELEMENTS; i++) {

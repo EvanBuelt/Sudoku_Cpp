@@ -24,7 +24,7 @@ struct ValueLocationCount {
 
 class SolverSupport {
 private:
-	Board board;
+	Board *board;
 
 	void clearNumberCount();
 	void clearValueCount();
@@ -34,6 +34,7 @@ public:
 
 	SolverSupport(Board &);
 	SolverSupport();
+	~SolverSupport();
 
 	Location commonLocation[ELEMENTS];
 	uint8_t commonLocationIndex;

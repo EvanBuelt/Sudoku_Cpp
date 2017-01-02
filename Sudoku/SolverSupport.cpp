@@ -23,7 +23,7 @@ ValueLocationCount::ValueLocationCount() {
 // Constructor
 
 SolverSupport::SolverSupport(Board &inputBoard) {
-	board = inputBoard;
+	board = &inputBoard;
 
 	clearNumberCount();
 	clearValueCount();
@@ -36,6 +36,9 @@ SolverSupport::SolverSupport() {
 	clearCommonLocation();
 }
 
+SolverSupport::~SolverSupport() {
+	board = nullptr;
+}
 // Private functions to help with public functions
 
 void SolverSupport::clearNumberCount() { 
@@ -69,7 +72,7 @@ void SolverSupport::processPossibleValuesToNumberCount(uint8_t row, uint8_t colu
 	// Get all possible values at location
 	uint8_t value = 0;
 	uint8_t locationIndex = 0;
-	board.board[row][column].getPossibleValuesArray(possibleValues);
+	board->board[row][column].getPossibleValuesArray(possibleValues);
 
 	//Iterate over every possible value at the selected location
 	for(uint8_t i = 0; i < 9; i++) {
@@ -86,7 +89,7 @@ void SolverSupport::processPossibleValuesToNumberCount(uint8_t row, uint8_t colu
 // Public functions to help solve sudoku board
 
 void SolverSupport::setBoard(Board &inputBoard) {
-	board = inputBoard;
+	board = &inputBoard;
 }
 void SolverSupport::getNumberCountHidden(uint8_t rowMin, uint8_t rowMax,  uint8_t columnMin, uint8_t columnMax) {
 
@@ -111,7 +114,7 @@ void SolverSupport::getNumberCountNaked(uint8_t possibleValuesMin, uint8_t possi
 	for(uint8_t row = rowMin; row <= rowMax; row++) {
 		for(uint8_t column = columnMin; column <= columnMax; column++) {
 
-			uint8_t numberPossibleValues = board.board[row][column].numberPossibleValues();
+			uint8_t numberPossibleValues = board->board[row][column].numberPossibleValues();
 
 			if((numberPossibleValues >= possibleValuesMin) && (numberPossibleValues <= possibleValuesMax)) {
 				processPossibleValuesToNumberCount(row, column);
