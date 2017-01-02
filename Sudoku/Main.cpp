@@ -38,7 +38,7 @@ int main() {
 	std::cout << "\n";
 
 	ElegantSolver easySolver = ElegantSolver(easyBoard);
-	ElegantSolver mediumSolver = ElegantSolver(easyBoard);
+	ElegantSolver mediumSolver = ElegantSolver(mediumBoard);
 
 	easySolver.solve();
 	mediumSolver.solve();

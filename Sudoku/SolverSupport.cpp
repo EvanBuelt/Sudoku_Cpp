@@ -31,13 +31,20 @@ SolverSupport::SolverSupport(Board &inputBoard) {
 }
 SolverSupport::SolverSupport() {
 
+	clearNumberCount();
+	clearValueCount();
+	clearCommonLocation();
 }
 
 // Private functions to help with public functions
 
 void SolverSupport::clearNumberCount() { 
+	// Iterate over array of number counts
 	for(uint8_t numberIndex = 0; numberIndex < ELEMENTS; numberIndex++) {
+		// Set count to 0
 		numberCount[numberIndex].count = 0;
+
+		// Iterate over every location in that particular number count
 		for(uint8_t locationIndex = 0; locationIndex < ELEMENTS; locationIndex++) {
 			numberCount[numberIndex].location[locationIndex].row = 0;
 			numberCount[numberIndex].location[locationIndex].column = 0;
@@ -45,9 +52,13 @@ void SolverSupport::clearNumberCount() {
 	}
 }
 void SolverSupport::clearValueCount() { 
+	// Iterate over array of value counts
 	for(uint8_t numberIndex = 0; numberIndex < 9; numberIndex++) {
+		// Set count and value to 0
 		valueCount[numberIndex].count = 0;
 		valueCount[numberIndex].value = 0;
+
+		// Iterate over every location in that particular value count
 		for(uint8_t locationIndex = 0; locationIndex < 9; locationIndex++) {
 			valueCount[numberIndex].location[locationIndex].row = 0;
 			valueCount[numberIndex].location[locationIndex].column = 0;

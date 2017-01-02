@@ -3,6 +3,7 @@
 
 #include "..\Sudoku\Board.h"
 #include "..\Sudoku\SolverSupport.h"
+#include "..\Sudoku\SolverSingles.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -15,7 +16,7 @@ namespace SudokuTests
 	{
 	public:
 		
-		TEST_METHOD(Unit_Test_Solver_Support_HiddenNumberCount)
+		TEST_METHOD(Unit_Test_Solver_Support_GetHiddenNumberCount)
 		{
 			
 			// Setup board
@@ -201,7 +202,7 @@ namespace SudokuTests
 			numberCountTestColumn[9 - 1].location[5].column = 0;
 		}
 
-		TEST_METHOD(Unit_Test_Solver_Support_NakedNumberCount) 
+		TEST_METHOD(Unit_Test_Solver_Support_GetNakedNumberCount) 
 		{// 1 3 4 6 9
 			
 			// Setup board
@@ -329,6 +330,167 @@ namespace SudokuTests
 			numberCountTestColumn[9 - 1].location[1].column = 0;
 			numberCountTestColumn[9 - 1].location[2].row = 8;
 			numberCountTestColumn[9 - 1].location[2].column = 0;
+		}
+
+	};
+
+	TEST_CLASS(SolverSingleTests) 
+	{
+	public:
+
+		TEST_METHOD(Unit_Test_Solver_Single_ProcessHiddenSingle) {
+
+			for(int i = 0; i < ELEMENTS; i++) {
+				solverSupport.numberCount[i].count = 0;
+				for(int j = 0;j < ELEMENTS; j++) {
+					solverSupport.numberCount[i].location[j].row = 0;
+					solverSupport.numberCount[i].location[j].column = 0;
+				}
+			}
+
+			// Setup board
+			uint8_t inputBoard[9][9] = { {0, 0, 0, 0, 0, 0, 0, 0, 0},
+										 {0, 0, 0, 0, 0, 0, 0, 0, 0},
+										 {0, 0, 0, 0, 0, 0, 0, 0, 0},
+										 {0, 0, 0, 0, 0, 0, 0, 0, 0},
+										 {0, 0, 0, 0, 0, 0, 0, 0, 0},
+										 {0, 0, 0, 0, 0, 0, 0, 0, 0},
+										 {0, 0, 0, 0, 0, 0, 0, 0, 0},
+										 {0, 0, 0, 0, 0, 0, 0, 0, 0},
+										 {0, 0, 0, 0, 0, 0, 0, 0, 0} };
+
+			uint8_t solvedBoard[9][9] = { {1, 2, 3, 0, 0, 0, 0, 0, 0},
+										  {4, 5, 6, 0, 0, 0, 0, 0, 0},
+										  {7, 8, 9, 0, 0, 0, 0, 0, 0},
+										  {0, 0, 0, 0, 0, 0, 0, 0, 0},
+										  {0, 0, 0, 0, 0, 0, 0, 0, 0},
+										  {0, 0, 0, 0, 0, 0, 0, 0, 0},
+										  {0, 0, 0, 0, 0, 0, 0, 0, 0},
+										  {0, 0, 0, 0, 0, 0, 0, 0, 0},
+										  {0, 0, 0, 0, 0, 0, 0, 0, 0} };
+
+			// Setup board class to be used by support solver
+			Board board = Board(inputBoard);
+
+			// Setup number count appropriately
+			for(int i = 0; i < ELEMENTS; i++) {
+				solverSupport.numberCount[i].count = 1;
+				solverSupport.numberCount[i].location[0].row = (i / 3);
+				solverSupport.numberCount[i].location[0].column = (i % 3);
+			}
+
+			Assert::IsTrue(processHiddenSingle(board));
+
+			for(int i = 0; i < ELEMENTS; i++) {
+				for(int j = 0; j < ELEMENTS; j++) {
+					Assert::AreEqual(solvedBoard[i][j], board.getValue(i, j));
+				}
+			}
+
+			solverSupport.getNumberCountHidden(0, 2, 0, 2);
+
+			Assert::IsFalse(processHiddenSingle(board));
+
+			for(int i = 0; i < ELEMENTS; i++) {
+				for(int j = 0; j < ELEMENTS; j++) {
+					Assert::AreEqual(solvedBoard[i][j], board.getValue(i, j));
+				}
+			}
+
+			Assert::IsFalse(processHiddenSingle(board));
+		}
+
+		TEST_METHOD(Unit_Test_Solver_Single_RemoveNakedSingles) {
+			
+			// Setup board
+			uint8_t inputBoard[9][9] = { {0, 2, 3, 0, 0, 0, 0, 0, 0},
+										 {4, 5, 6, 0, 0, 0, 0, 0, 0},
+										 {7, 8, 9, 0, 0, 0, 0, 0, 0},
+										 {0, 0, 0, 1, 0, 3, 0, 0, 0},
+										 {0, 0, 0, 4, 5, 6, 0, 0, 0},
+										 {0, 0, 0, 7, 8, 9, 0, 0, 0},
+										 {0, 0, 0, 0, 0, 0, 1, 2, 3},
+										 {0, 0, 0, 0, 0, 0, 4, 5, 0},
+										 {0, 0, 0, 0, 0, 0, 7, 8, 9} };
+
+			uint8_t solvedBoard[9][9] = { {1, 2, 3, 0, 0, 0, 0, 0, 0},
+										  {4, 5, 6, 0, 0, 0, 0, 0, 0},
+										  {7, 8, 9, 0, 0, 0, 0, 0, 0},
+										  {0, 0, 0, 1, 2, 3, 0, 0, 0},
+										  {0, 0, 0, 4, 5, 6, 0, 0, 0},
+										  {0, 0, 0, 7, 8, 9, 0, 0, 0},
+										  {0, 0, 0, 0, 0, 0, 1, 2, 3},
+										  {0, 0, 0, 0, 0, 0, 4, 5, 6},
+										  {0, 0, 0, 0, 0, 0, 7, 8, 9} };
+
+			// Setup board class to be used by support solver
+			Board board = Board(inputBoard);
+
+			Assert::IsTrue(removeNakedSingles(board));
+
+			for(int i = 0; i < ELEMENTS; i++) {
+				for(int j = 0; j < ELEMENTS; j++) {
+					Assert::AreEqual(solvedBoard[i][j], board.getValue(i, j));
+				}
+			}
+
+			Assert::IsFalse(removeNakedSingles(board));
+
+			for(int i = 0; i < ELEMENTS; i++) {
+				for(int j = 0; j < ELEMENTS; j++) {
+					Assert::AreEqual(solvedBoard[i][j], board.getValue(i, j));
+				}
+			}
+
+			Assert::IsFalse(removeNakedSingles(board));
+		}
+
+		TEST_METHOD(Unit_Test_Solver_Single_RemoveHiddenSingleRow) {
+			
+			// Setup board
+			uint8_t inputBoard[9][9] = { {0, 2, 0, 0, 0, 0, 0, 0, 0},
+										 {0, 0, 0, 1, 0, 0, 0, 0, 0},
+										 {0, 0, 0, 0, 0, 0, 1, 0, 0},
+										 {0, 0, 1, 0, 0, 0, 0, 0, 0},
+										 {0, 0, 0, 0, 0, 0, 0, 0, 0},
+										 {0, 0, 0, 0, 0, 0, 0, 0, 0},
+										 {0, 0, 0, 0, 0, 0, 0, 0, 0},
+										 {0, 0, 0, 0, 0, 0, 0, 0, 0},
+										 {0, 0, 0, 0, 0, 0, 0, 0, 0} };
+
+			uint8_t solvedBoard[9][9] = { {1, 2, 0, 0, 0, 0, 0, 0, 0},
+										  {0, 0, 0, 1, 0, 0, 0, 0, 0},
+										  {0, 0, 0, 0, 0, 0, 1, 0, 0},
+										  {0, 0, 1, 0, 0, 0, 0, 0, 0},
+										  {0, 0, 0, 0, 0, 0, 0, 0, 0},
+										  {0, 0, 0, 0, 0, 0, 0, 0, 0},
+										  {0, 0, 0, 0, 0, 0, 0, 0, 0},
+										  {0, 0, 0, 0, 0, 0, 0, 0, 0},
+										  {0, 0, 0, 0, 0, 0, 0, 0, 0} };
+
+			// Setup board class to be used by support solver
+			Board board = Board(inputBoard);
+			solverSupport.setBoard(board);
+
+			// Assert::IsTrue(removeHiddenSingleRow(board));
+
+			removeHiddenSingleRow(board);
+
+			for(int i = 0; i < ELEMENTS; i++) {
+				for(int j = 0; j < ELEMENTS; j++) {
+					Assert::AreEqual(solvedBoard[i][j], board.getValue(i, j));
+				}
+			}
+			/*
+			Assert::IsFalse(removeNakedSingles(board));
+
+			for(int i = 0; i < ELEMENTS; i++) {
+				for(int j = 0; j < ELEMENTS; j++) {
+					Assert::AreEqual(solvedBoard[i][j], board.getValue(i, j));
+				}
+			}
+
+			Assert::IsFalse(removeNakedSingles(board));*/
 		}
 	};
 }
